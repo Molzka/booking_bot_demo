@@ -1,7 +1,7 @@
 import asyncio
 
 from aiogram import Bot, Dispatcher
-from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.storage.memory import MemoryStorage, SimpleEventIsolation
 
 from botbooking.config import load_config
 from botbooking.db.database import create_session_factory, init_db
@@ -15,15 +15,16 @@ async def main() -> None:
     init_db(engine)
 
     bot = Bot(token=config.bot_token)
-    dispatcher = Dispatcher(storage=MemoryStorage())
-    dispatcher.include_router(booking_router)
+    dispatcher = Dispatcher(storage=MemoryStorage(), events_isolation=SimpleEventIsolation())
     dispatcher.include_router(admin_router)
+    dispatcher.include_router(booking_router)
 
     repository = BookingRepository(session_factory)
     await dispatcher.start_polling(
         bot,
         admin_id=config.admin_id,
         repository=repository,
+        booking_timezone=config.booking_timezone,
     )
 
 

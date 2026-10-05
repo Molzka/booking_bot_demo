@@ -20,6 +20,7 @@ botbooking/
     admin.py             # команда /requests
   services/
     formatters.py        # форматирование сообщений
+    validation.py        # проверка дат, времени и телефона
 ```
 
 ## Запуск через uv
@@ -36,6 +37,7 @@ copy .env.example .env
 BOT_TOKEN=токен_бота_от_BotFather
 ADMIN_ID=ваш_telegram_id
 DATABASE_URL=sqlite:///botbooking.sqlite3
+BOOKING_TIMEZONE=Europe/Moscow
 ```
 
 3. Установите зависимости и запустите бота:
@@ -53,5 +55,6 @@ uv run python -m botbooking
 
 ## Команды
 
-- `/start` - начать запись клиента.
-- `/requests` - показать админу последние 5 заявок.
+- `/start` — начать запись или сбросить текущую форму. Запись доступна в личном чате.
+- `/cancel` — отменить заполнение на любом шаге.
+- `/requests` — показать последние 5 заявок только пользователю `ADMIN_ID` в личном чате с ботом. Команда работает и во время заполнения формы, не меняя её.

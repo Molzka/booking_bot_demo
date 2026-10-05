@@ -8,6 +8,7 @@ dependencies = [
     "aiogram>=3.4,<4.0",
     "python-dotenv>=1.0,<2.0",
     "sqlalchemy>=2.0,<3.0",
+    "tzdata>=2025.1",
 ]
 
 [project.scripts]

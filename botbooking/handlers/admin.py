@@ -14,8 +14,12 @@ async def show_requests(
     admin_id: int,
     repository: BookingRepository,
 ) -> None:
-    if message.from_user is None or message.from_user.id != admin_id:
-        await message.answer("Команда доступна только администратору.")
+    if (
+        message.chat.type != "private"
+        or message.from_user is None
+        or message.from_user.id != admin_id
+    ):
+        await message.answer("Команда доступна только администратору в личном чате с ботом.")
         return
 
     requests = repository.latest_requests(limit=5)

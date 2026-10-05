@@ -2,17 +2,17 @@ from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
-def options_keyboard(prefix: str, values: list[str]) -> InlineKeyboardMarkup:
+def options_keyboard(prefix: str, values: list[str], token: str) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
-    for value in values:
-        builder.button(text=value, callback_data=f"{prefix}:{value}")
+    for index, value in enumerate(values):
+        builder.button(text=value, callback_data=f"{prefix}:{token}:{index}")
     builder.adjust(1)
     return builder.as_markup()
 
 
-def confirmation_keyboard() -> InlineKeyboardMarkup:
+def confirmation_keyboard(token: str) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
-    builder.button(text="Подтвердить заявку", callback_data="confirm:yes")
-    builder.button(text="Заполнить заново", callback_data="confirm:restart")
+    builder.button(text="Подтвердить заявку", callback_data=f"confirm:{token}:yes")
+    builder.button(text="Заполнить заново", callback_data=f"confirm:{token}:restart")
     builder.adjust(1)
     return builder.as_markup()
